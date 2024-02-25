@@ -1,0 +1,7 @@
+__pycache__/
+modules/api/clients/__pycache__/
+tests/api/__pycache__/
+tests/database/__pycache__
+tests/ui/__pycache__
+.pytest_cache/
+

@@ -1,13 +1,14 @@
 import requests
 
 class GitHub:
+    #метод для отримання даних про користувача
     def get_user(self, username):
         r = requests.get(f'https://api.github.com/users/{username}')
         body = r.json()
 
         return body
     
-
+    #метод для отримання даних про репозіторій
     def search_repo(self, name):
         r = requests.get(
             'https://api.github.com/search/repositories', 
