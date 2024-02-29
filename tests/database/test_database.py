@@ -35,6 +35,7 @@ def test_product_qnt_update():
 
     assert water_qnt[0][0] == 25
 
+
 #перевірка таблиці "Продукти"
 @pytest.mark.database
 def test_check_all_products():

@@ -17,9 +17,9 @@ class GitHub:
         body = r.json()
 
         return body
-    
-    # my methods
-'''
+
+
+    #метод для отримання даних про конкретний репозиторій конкретного юзера 
     def search_my_repo(self, username, name):
         r = requests.get(
             'https://api.github.com/search/repositories', 
@@ -29,7 +29,9 @@ class GitHub:
 
         return body
     
+
+    #метод для отримання даних про публічні репозіторії юзера
     def get_public_repositories(username):
         base_url = "https://api.github.com"
         url = f"{base_url}/users/{username}/repos"
-        r = requests.get(url)'''
+        r = requests.get(url)
