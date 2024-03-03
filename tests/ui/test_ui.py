@@ -10,7 +10,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 
 
-@pytest.mark.ui_golka
+@pytest.mark.ui
 def test_searching_product_and_adding_to_cart():
     # Створення об'єкту для керування браузером
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -50,11 +50,8 @@ def test_searching_product_and_adding_to_cart():
     # Чекати на відображення модального вікна за його класом 
     WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "modal-title")))
 
-    # Перевірка, що модальне вікно містить кнопку "Оформити замовлення"
+    # Перевірка, що модальне вікно містить кнопку "Оформити замовлення" (пошук кнопки за лінком)
     button_order_elem = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.LINK_TEXT, "Оформити замовлення")))
-
-    # Пошук кнопки всередині модального вікна за CSS селектором
-    button_order_elem = driver.find_element(By.LINK_TEXT, 'Оформити замовлення')
     
     # Клік на знайдену кнопку
     button_order_elem.click()
