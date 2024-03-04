@@ -19,8 +19,9 @@ def test_check_all_users():
     print("Покупці:", users)
 
 # myTest
-# Додавання нових користувачів та перевірка правильності додавання даних
-@pytest.mark.my_database
+# Додавання нових користувачів та перевірка правильності додавання даних (користувавчі додані 
+# також для розширення бази даних, тому наприкінці тесту не видаляються)
+@pytest.mark.database
 def test_customer_insert():
     db = Database()
     db.insert_customer(3, 'Oleksii', 'Peremohy av. 62D-77', 'Kharkiv','61210','Ukraine')
@@ -32,14 +33,15 @@ def test_customer_insert():
     print("Покупці, повна інформація:", users)
 
 # myTest   
-# Додати дані у таблицю "Замовлення"
-@pytest.mark.my_database
+# Додати дані у таблицю "Замовлення" для розширення бази даних (до того вона мала недостатню 
+# кількість записів для демонстрації виконання тестів)
+@pytest.mark.database
 def test_order_insert():
     db = Database()
     db.insert_order(2,1, 1, '10:19:22')
     db.insert_order(3,4, 2, '18:02:18')
     db.insert_order(4,4, 3, '11:33:09')
-    db.insert_order(5,5, 1, '01:47:15')
+    db.insert_order(5,5, 1, '10:00:15')
 
 # Переконатися що дані додані та подивитися деталі замовлення
     orders = db.get_detalied_orders()
@@ -48,7 +50,7 @@ def test_order_insert():
 
 # myTest   
 # Відсортувати найпізніше замовлення та перевірити, чи не було воно зроблене у неробочий час
-@pytest.mark.my_database
+@pytest.mark.database
 def test_the_last_order():
     db = Database()
     last_order_time = db.get_the_last_order()
@@ -64,17 +66,17 @@ def test_the_last_order():
 # Перевірка що при спробі вставити дані про покупця з вже існуючим id виникне помилка 
 # (id взято як приклад, в реальних БД це може бути будь-який інший унікальний стовпець, 
 # який задали, щоб уникнути дублікатів даних)
-@pytest.mark.my_database
+@pytest.mark.database
 def test_duplicate_user_id():
     db = Database()
     user_id = 2
 
     try:
-# Спроба додати користувача з існуючим id
+        # Спроба додати користувача з існуючим id
         db.insert_unic_customer(user_id, 'Oleksii', 'Khreshatyk 14/2', 'Kyiv','61210','Ukraine')
         
     except sqlite3.IntegrityError as e:
-# Перевірка, що виникла IntegrityError, що відповідає помилці унікальності
+        # Перевірка, що виникла IntegrityError, що відповідає помилці унікальності
         print(f"Такий id вже існує, IntegrityError: {e}")  
 
 
@@ -82,7 +84,7 @@ def test_duplicate_user_id():
 # Перевірка, що БД не містить дублікатів записів про покупців. Обрани колонки таблиці customers, а саме комбінація 
 # імені, адреси та міста, за якими можна ствержувати, що ці дані належать одному тому самому покупцю. 
 # Звісно це не зовсім так, але в рамках задачи припустимо.
-@pytest.mark.my_database
+@pytest.mark.database
 def test_check_duplicates_data():
     db = Database()
     duplicates = db.search_duplicates()
@@ -93,12 +95,12 @@ def test_check_duplicates_data():
 # myTest
 # Перевірка, чи для всіх замовлень у нас є дані для доставки 
 # (тобто немає null значень в полях "адреса" та "місто")
-@pytest.mark.my_database
+@pytest.mark.database
 def test_no_empty_address_or_city_in_orders():
     db = Database()
     orders = db.get_detalied_orders()
 
-# Перевіряємо у кожному замовленні чи є дані для доставки
+    # Перевірка, що у кожному замовленні чи є дані для доставки
     for order in orders:
         order_id, customer_name, address, city, product_name, product_description, order_date = order
         
@@ -162,12 +164,14 @@ def test_detailed_orders():
     # Перевірка что кількість замовлень равна 5
     assert len(orders) ==5
 
-# Перевірка структури даних
-# Закоментовано, тому що метод get_detalied_orders було відозмінено мною для 
-# універсальності використання у інших моїх тестах. Але ці перевірки структури 
-# були обов'язковими, то ж я їх залишила у закоментованому вигляді
-    '''assert orders[0][0] == 1
-    assert orders[0][1] == 'Sergii'
-    assert orders[0][2] == 'солодка вода'
-    assert orders[0][3] == 'з цукром'
-    '''
+    # Перевірка структури даних
+    # Метод get_detalied_orders було відозмінено мною для універсальності використання у 
+    # інших моїх тестах, тому структура даних теж змінилась. 
+    assert orders[0][0] == 5
+    assert orders[0][1] == 'Stepan'
+    assert orders[0][2] == 'Obolonsky av. 10'
+    assert orders[0][3] == 'Kyiv'
+    assert orders[0][4] == 'солодка вода' 
+    assert orders[0][5] == 'з цукром'
+    assert orders[0][6] == '10:00:15' 
+    
