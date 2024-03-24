@@ -94,7 +94,7 @@ def test_check_duplicates_data():
 
 # myTest
 # Перевірка, чи для всіх замовлень у нас є дані для доставки 
-# (тобто немає null значень в полях "адреса" та "місто")
+# (тобто немає null та порожніх значень в полях "адреса" та "місто")
 @pytest.mark.database
 def test_no_empty_address_or_city_in_orders():
     db = Database()
