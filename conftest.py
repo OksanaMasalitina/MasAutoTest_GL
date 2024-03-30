@@ -1,5 +1,6 @@
 import pytest
 from modules.api.clients.github import GitHub
+import os
 
 
 class User:
@@ -31,3 +32,25 @@ def user():
 def github_api():
     api = GitHub()
     yield api
+
+
+@pytest.fixture
+def last_commit_hash_file():
+    filename = "last_commit_hash.txt"
+    if os.path.exists(filename):
+        with open(filename, "r") as file:
+            last_commit_hash = file.read().strip()
+            print("Значення last_commit_hash з файлу:", last_commit_hash)
+            return last_commit_hash
+    else:
+        print("Файл last_commit_hash.txt не існує.")
+        return None
+
+@pytest.fixture
+def save_last_commit_hash_file():
+    def _save_last_commit_hash(commit_hash):
+        filename = "last_commit_hash.txt"
+        with open(filename, "w") as file:
+            file.write(commit_hash)
+            print("Значення last_commit_hash збережено у файлі.")
+    return _save_last_commit_hash
