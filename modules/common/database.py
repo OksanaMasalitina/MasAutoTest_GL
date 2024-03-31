@@ -6,6 +6,9 @@ class Database():
         self.connection = sqlite3.connect(r'/Users/oksana/Masalitina_AutoTestGL' + r'/become_qa_auto.db')
         self.cursor = self.connection.cursor()
     
+    def close_connection(self):
+        self.connection.close()
+    
     # Метод для перевірки підключення до бази даних
     def test_connection(self):
         sqlite_select_Query = "SELECT sqlite_version();"
