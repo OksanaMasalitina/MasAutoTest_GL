@@ -40,7 +40,7 @@ def last_commit_hash_file():
     if os.path.exists(filename):
         with open(filename, "r") as file:
             last_commit_hash = file.read().strip()
-            print("Значення last_commit_hash з файлу:", last_commit_hash)
+            print("last_commit_hash value:", last_commit_hash)
             return last_commit_hash
     else:
         print("Файл last_commit_hash.txt не існує.")
@@ -52,5 +52,5 @@ def save_last_commit_hash_file():
         filename = "last_commit_hash.txt"
         with open(filename, "w") as file:
             file.write(commit_hash)
-            print("Значення last_commit_hash збережено у файлі.")
+            print("last_commit_hash saved")
     return _save_last_commit_hash

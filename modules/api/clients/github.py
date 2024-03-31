@@ -99,6 +99,7 @@ class GitHub:
 
         last_commit = r.json()[0]
         new_commit_hash = last_commit['sha'] 
+        return new_commit_hash
 
         
         if last_commit_hash_file != new_commit_hash:

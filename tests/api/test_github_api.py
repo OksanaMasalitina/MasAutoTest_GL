@@ -52,9 +52,15 @@ def test_user_have_public_repo(github_api):
     assert r != 0
 
 
-#отримання хешу останнього коміту публічного репозіторія
+#Перевірка, що за період від попереднього проходження тесту не з'явилося нових комітів
 @pytest.mark.api
 def test_last_commit_hash(github_api, last_commit_hash_file, save_last_commit_hash_file):
-    commit_hash = github_api.get_last_commit_hash(owner='OksanaMasalitina', repo='MasAutoTest_GL', last_commit_hash_file=last_commit_hash_file, save_last_commit_hash_file=save_last_commit_hash_file)
-    print(commit_hash)
-    
+    new_commit_hash = github_api.get_last_commit_hash(owner='OksanaMasalitina', repo='MasAutoTest_GL', last_commit_hash_file=last_commit_hash_file, save_last_commit_hash_file=save_last_commit_hash_file)
+    if last_commit_hash_file != new_commit_hash:
+            save_last_commit_hash_file(new_commit_hash)
+            print("Хеш останнього коміту змінився. Оновлено значення.")
+            assert False  # Щоб тест не пройшов, бо хеш змінився
+    else:
+            print("Хеш останнього коміту не змінився.")
+
+            assert True  # Щоб тест пройшов, бо хеш не змінився
