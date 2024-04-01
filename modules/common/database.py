@@ -6,9 +6,11 @@ class Database():
         self.connection = sqlite3.connect(r'/Users/oksana/Masalitina_AutoTestGL' + r'/become_qa_auto.db')
         self.cursor = self.connection.cursor()
     
+
     def close_connection(self):
         self.connection.close()
     
+
     # Метод для перевірки підключення до бази даних
     def test_connection(self):
         sqlite_select_Query = "SELECT sqlite_version();"
@@ -16,6 +18,7 @@ class Database():
         record = self.cursor.fetchall()
         print(f"Connected successfully. SQLite Database Version is: {record}")
     
+
     # Метод для отримання інформації про всіх покупців (коротка версія)
     def get_all_users_short(self):
         query = "SELECT name, address, city FROM customers"
@@ -23,6 +26,7 @@ class Database():
         record = self.cursor.fetchall()
         return record  
     
+
     # Метод для отримання інформації про всіх покупців (повна версія)
     def get_all_users_full(self):
         query = "SELECT * FROM customers"
@@ -30,7 +34,7 @@ class Database():
         record = self.cursor.fetchall()
         return record 
     
-    # myMethod 
+
     # Метод для пошуку дублікатів записів про покупців по комбінації імені, адреси та міста
     def search_duplicates(self):
         query = f'''
@@ -44,6 +48,7 @@ class Database():
 
         return duplicates
 
+
     # Перевірка даних у таблиці "Продукти"
     def get_all_products(self):
         query = f'''
@@ -54,6 +59,7 @@ class Database():
         record = self.cursor.fetchall()
         return record 
     
+
     # Метод для отримання інформації про всі замовлення
     def get_all_orders(self):
         query = f'''
@@ -64,7 +70,7 @@ class Database():
         record = self.cursor.fetchall()
         return record  
     
-    # myMethod
+    
     # Вставка нового рядка до таблиці "Покупці"
     def insert_customer(self, id, name, address, city, postalCode, country):
         query = f'''
@@ -74,7 +80,7 @@ class Database():
         self.cursor.execute(query)
         self.connection.commit()
 
-    # myMethod
+    
     # Вставка нового рядка до таблиці "Покупці" (без replace)
     def insert_unic_customer(self, id, name, address, city, postalCode, country):
         query = f'''
@@ -83,6 +89,7 @@ class Database():
         '''
         self.cursor.execute(query)
         self.connection.commit()
+
 
      # Вставка нового рядка до таблиці "Продукти"
     def insert_product(self, product_id, name, description, qnt):
@@ -93,7 +100,7 @@ class Database():
         self.cursor.execute(query)
         self.connection.commit()
 
-    # myMethod
+    
     # Вставка нового рядка до таблиці "Замовлення"
     def insert_order(self, id, customer_id, product_id, order_date):
         query = f'''
@@ -103,7 +110,7 @@ class Database():
         self.cursor.execute(query)
         self.connection.commit()
 
-    # myMethod
+    
     # Отримати інформацію про напізніше замовлення
     def get_the_last_order(self):
         query = f'''
@@ -116,6 +123,7 @@ class Database():
         record = self.cursor.fetchall()
         return record
 
+
     # Метод для отримання адреси покупця за його ім'ям
     def get_user_address_by_name(self, name):
         query = f'''
@@ -127,6 +135,7 @@ class Database():
         record = self.cursor.fetchall()
         return record
 
+
     # Метод для оновлення кількості певного продукту
     def update_product_qnt_by_id(self, product_id, qnt):
         query = f'''
@@ -136,6 +145,7 @@ class Database():
             '''
         self.cursor.execute(query)
         self.connection.commit()
+
 
     # Метод для отримання кільості певного продукту 
     #(для перевірки, що кількість певного продукту після оновлення змінилась)
@@ -149,12 +159,13 @@ class Database():
         record = self.cursor.fetchall()
         return record
     
-    # myMethod
+    
     # Видалення рядка з таблиці "Покупці"
     def delete_customer_by_id(self, id):
         query = f"DELETE FROM customers WHERE id = {id}"
         self.cursor.execute(query)
         self.connection.commit()
+
 
     # Видалення рядка з таблиці "Продукти"
     def delete_product_by_id(self, product_id):
@@ -162,7 +173,7 @@ class Database():
         self.cursor.execute(query)
         self.connection.commit()
     
-    # myMethod 
+    
     # Поєднання таблиць та отримання деталей замовлення
     def get_detalied_orders(self):
         query = '''

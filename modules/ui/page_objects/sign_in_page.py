@@ -26,7 +26,7 @@ class SignInPage(BasePage):
         # Пошук кнопки "Sign in"
         btn_elem = self.driver.find_element(By.NAME, "commit")
 
-        # Емуляція кліка лівоб кнопкою миші
+        # Емуляція кліка лівою кнопкою миші
         btn_elem.click()
     
     def check_title(self, expected_title): 

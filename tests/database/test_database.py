@@ -10,6 +10,7 @@ def test_database_connection():
     db = Database()
     db.test_connection()
 
+
 # Тест для перевірки правильності роботи запиту отримання даних про всіх юзеров
 @pytest.mark.database
 def test_check_all_users():
@@ -19,7 +20,7 @@ def test_check_all_users():
     print("Покупці:", users)
     db.close_connection()
 
-# myTest
+
 # Додавання нових користувачів та перевірка правильності додавання даних (користувавчі додані 
 # також для розширення бази даних, тому наприкінці тесту не видаляються)
 @pytest.mark.database
@@ -34,7 +35,7 @@ def test_customer_insert():
     print("Покупці, повна інформація:", users)
     db.close_connection()
 
-# myTest   
+  
 # Додати дані у таблицю "Замовлення" для розширення бази даних (до того вона мала недостатню 
 # кількість записів для демонстрації виконання тестів)
 @pytest.mark.database
@@ -44,30 +45,28 @@ def test_order_insert():
     db.insert_order(3,4, 2, '18:02:18')
     db.insert_order(4,4, 3, '11:33:09')
     db.insert_order(5,5, 1, '10:00:15')
-
-# Переконатися що дані додані та подивитися деталі замовлення
+    # Переконатися що дані додані та подивитися деталі замовлення:
     orders = db.get_detalied_orders()
 
     print("Замовлення:", orders)
     db.close_connection()
 
-# myTest   
+
 # Відсортувати найпізніше замовлення та перевірити, чи не було воно зроблене у неробочий час
 @pytest.mark.database
 def test_the_last_order():
     db = Database()
     last_order_time = db.get_the_last_order()
-# Перетворення рядка на об'єкт datetime
+    # Перетворення рядка на об'єкт datetime
     last_order_time = datetime.strptime(last_order_time[0][0], '%H:%M:%S').time()  
-    
-# Графік роботи магазину
+    # Графік роботи магазину
     finish_time = datetime.strptime('21:00:00', '%H:%M:%S').time()
 
     assert last_order_time <= finish_time, "Замовлення зроблено в неробочий час"
     db.close_connection()
 
-# myTest   
-# Перевірка що при спробі вставити дані про покупця з вже існуючим id виникне помилка 
+   
+# Перевірка, що при спробі вставити дані про покупця з вже існуючим id виникне помилка 
 # (id взято як приклад, в реальних БД це може бути будь-який інший унікальний стовпець, 
 # який задали, щоб уникнути дублікатів даних)
 @pytest.mark.database
@@ -84,8 +83,7 @@ def test_duplicate_user_id():
         print(f"Такий id вже існує, IntegrityError: {e}")  
     db.close_connection()
 
-
-# myTest   
+   
 # Перевірка, що БД не містить дублікатів записів про покупців. Обрани колонки таблиці customers, а саме комбінація 
 # імені, адреси та міста, за якими можна ствержувати, що ці дані належать одному тому самому покупцю. 
 # Звісно це не зовсім так, але в рамках задачи припустимо.
@@ -98,7 +96,7 @@ def test_check_duplicates_data():
     db.close_connection()
 
 
-# myTest
+
 # Перевірка, чи для всіх замовлень у нас є дані для доставки 
 # (тобто немає null та порожніх значень в полях "адреса" та "місто")
 @pytest.mark.database
@@ -114,6 +112,7 @@ def test_no_empty_address_or_city_in_orders():
         assert city is not None and city != '', f"Порожнє місто у замовленні {order_id}"
         db.close_connection()
 
+
 # Тест для перевірки отримання адреси покупця за його ім'ям
 @pytest.mark.database
 def test_check_user_sergii():
@@ -126,6 +125,7 @@ def test_check_user_sergii():
     assert user[0][3] == 'Ukraine'
     db.close_connection()
 
+
 # Тест для перевірки оновлення кількості певного продукту
 @pytest.mark.database
 def test_product_qnt_update():
@@ -136,6 +136,7 @@ def test_product_qnt_update():
     assert water_qnt[0][0] == 25
     db.close_connection()
 
+
 # Перевірка даних у таблиці "Продукти"
 @pytest.mark.database
 def test_check_all_products():
@@ -144,6 +145,7 @@ def test_check_all_products():
 
     print("Товари:", products)
     db.close_connection()
+
 
 # Додавання нового рядка та перевірка правильності додавання даних
 @pytest.mark.database
@@ -176,9 +178,8 @@ def test_detailed_orders():
     print("Замовлення", orders)
     # Перевірка что кількість замовлень равна 5
     assert len(orders) ==5
-    db.close_connection()
 
-    # Перевірка структури даних
+    # Перевірка структури даних:
     # Метод get_detalied_orders було відозмінено мною для універсальності використання у 
     # інших моїх тестах, тому структура даних теж змінилась. 
     assert orders[0][0] == 5
