@@ -42,7 +42,7 @@ def delete_comment():
     def _delete_comment(owner, repo, comment_id):
         github_token = os.getenv('GITHUB_TOKEN')
         if not github_token:
-            raise ValueError("GitHub token is not set. Please set the 'GITHUB_TOKEN' environment variable.")
+            raise ValueError("GitHub token  не налаштовано. Додайте токен у змінну середовища")
             
         url = f"https://api.github.com/repos/{owner}/{repo}/comments/{comment_id}"
 
